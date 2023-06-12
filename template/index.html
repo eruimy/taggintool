@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Let's tag data </title>
+
+        <style>
+        body {
+            align-items: center;
+            justify-content: center;
+             text-align: center;
+
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        ul {
+            list-style: none;
+            text-align: center;
+            padding: 2;
+        }
+        }
+
+        form {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+    </style>
+
+</head>
+<body>
+    <form id="tagForm" action="/?row_index={{ row_index }}" method="POST">
+    <h1 style = 'color:Black;padding:10px;font-size:300%;'>Let's tag data</h1>
+
+    <p style = 'color:Black;padding:10px;font-size:150%;'> <b>Domain name:</b> {{ df['domain'][index_to_tag[row_index]] }}</p>
+
+    <p style = 'color:Black;padding:10px;font-size:100%;margin:15px;'> <b>Domain explication:</b> {{ df['domain_exp'][index_to_tag[row_index]] }}</p>
+    <br><br>
+    <p style = 'color:Navy;padding:10px;font-size:100%;margin:15px;'> <b>Please correct if you think that this explication is false :</b> </p>
+    <br><br>
+    <textarea style = 'padding:20px;' id="commentdomain" name="commentdomain" rows="4" cols="60"></textarea>
+    <br><br>
+
+    <p style = 'color:Black;padding:10px;font-size:170%;'><b>Event:</b></p>
+
+    <ul>
+        <div style="font-size:150%;", class="center">
+                        <li style = 'color:Black;padding:10px'><b>Type:</b>
+                <a >{{ df['signaltype'][index_to_tag[row_index]]  }} </a></li>
+            <li style = 'color:Black;padding:10px'><b>Content:</b>
+                <a >{{ df['encryptedcontent'][index_to_tag[row_index]]  }} </a></li>
+            <li style = 'color:Black;padding:10px'><b>Href:</b>
+                <a href={{"http://"+ df['encryptedhref'][index_to_tag[row_index]]}}, target="_blank">{{ df['encryptedhref'][index_to_tag[row_index]]  }}
+                </a></li>
+            <li style = 'color:Black;padding:10px'><b>PageURL:</b>
+                <a style = 'color:Black;padding:10px',
+                   href={{"http://"+ df['encryptedrequesturl'][index_to_tag[row_index]]}} ,
+                target="_blank">{{ df['encryptedrequesturl'][index_to_tag[row_index]] }}
+            </a></li>
+        </div>
+    </ul>
+
+    <p style = 'color:Black;padding:10px;font-size:170%;'><b>Tag possible:</b></p>
+
+    <br><br>
+
+
+
+        <p style = 'color:Black;padding:10px;font-size:100%;'> <b>You have {{ number_to_tag }} events to tag today </b> </p>
+        <input type="hidden" id="row_index" name="row_index" value="{{ row_index }}">
+
+        <select id="tag" name="tag" style = 'padding:10px;font-size:120%;'>
+            {% for roll in  list_element %}
+                <option value="{{ roll }}">{{ roll }}</option>
+            {% endfor %}
+        </select>
+
+        <br><br>
+        <p style = 'color:Navy;padding:10px;font-size:100%;margin:15px;'> <b>Explain your process of thought here</b> </p>
+    <br><br>
+        <textarea id="comment" name="comment" rows="6" cols="60"></textarea>
+
+        <br><br>
+        <input style = 'color:Black;padding:10px;font-size:120%;' type="button" value="Tag"  onclick="navigate(1)">
+
+    </form>
+
+
+    <br><br>
+    <form id = 'save' style = 'padding:10px' method="POST" >
+        <input  name = 'save' style = 'color:Black;padding:10px;font-size:120%;'
+               type="submit" value="Save progress to csv" onclick="saveComment" >
+    </form>
+
+
+</body>
+    <script>
+        var rowIndex = {{ row_index  }};
+        var maxIndex = {{ df.shape[0] - 1 }};
+
+        function navigate(direction) {
+            rowIndex += direction;
+            rowIndex = Math.min(Math.max(rowIndex, 0), maxIndex);
+            document.getElementById('row_index').value = rowIndex;
+            document.getElementById('tagForm').action = "http://127.0.0.1:5000/tagging/{{info_user}}/?row_index=" + rowIndex;
+            document.getElementById('tagForm').submit();
+        }
+
+
+
+    </script>
+</html>

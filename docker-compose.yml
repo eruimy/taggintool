@@ -1,0 +1,10 @@
+version: '2'
+
+services:
+  writer:
+    build: taggintool/
+    ports:
+      - 5000:5000
+    container_name: taggintool
+    volumes:
+      - ~/Desktop:/taggintool

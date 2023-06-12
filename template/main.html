@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <form method="POST",action="{{ url_for('main') }}" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="name">Name :</label>
+        <input type="text" name="name"
+               value="{{ request.form['name'] }}"></input>
+        <br></br>
+        <input type="file" name="file" />
+        <input type = "submit" value="Upload",action="/tagging>
+
+
+    <button formmethod="post"
+      name="start"
+      class="bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-4 rounded"
+      type="submit", value="ok", action="/tagging"
+    >
+
+   </div>
+    </form>
+</head>
+<body>
+
+</body>
+</html>
